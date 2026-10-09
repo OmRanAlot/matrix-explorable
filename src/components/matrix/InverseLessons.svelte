@@ -242,9 +242,14 @@
 			);
 			// The st-9 … st-13 pins were measured before these lessons existed, so one
 			// sort by their stale starts can misplace them; repeat until stable.
+			// Triggers on #article itself depend on every pin's spacing, so they must
+			// stay last regardless of their measured start.
+			const article = document.getElementById("article");
+			const pageOrder = (a, b) =>
+				(a.trigger === article) - (b.trigger === article) || a.start - b.start;
 			for (let i = 0; i < 10; i++) {
 				const order = ScrollTrigger.getAll();
-				ScrollTrigger.sort();
+				ScrollTrigger.sort(pageOrder);
 				if (i && ScrollTrigger.getAll().every((t, j) => t === order[j])) break;
 				ScrollTrigger.refresh();
 			}
