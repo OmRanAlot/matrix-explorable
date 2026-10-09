@@ -13,7 +13,9 @@
 <footer class="max-w-prose mx-auto p-5 prose prose-xl pt-16 pb-28">
 	<section class="flex flex-col items-center gap-8 text-center pb-10">
 		<div>
-			<p>Like my stuff? :)</p>
+			<p>Like this visualization?</p>
+			<p>All this of work was cloned from Yi Zhe An's <a href="https://github.com/yizhe-ang/matrix-explorable">repo</a></p>
+			<p>Show them support!</p>
 			<div class="kofi-button grid place-content-center">
 				<a class="kofi-link" href="https://ko-fi.com/U7U4NH69A" target="_blank"
 					><img

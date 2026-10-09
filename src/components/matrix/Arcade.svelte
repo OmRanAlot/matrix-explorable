@@ -65,7 +65,7 @@
 		colorGrid,
 		colorGridAlt
 	} from "$data/variables";
-	import colors from "tailwindcss/colors";
+	import { gridStyle, mathboxFocus } from "$data/visualization.js";
 	import CameraControls from "camera-controls";
 	import {
 		Color,
@@ -89,7 +89,7 @@
 
 	// Set this to the z-position of the camera
 	// mathbox.set("focus", 15);
-	mathbox.set("focus", 20);
+	mathbox.set("focus", mathboxFocus);
 
 	// Set up coordinate system
 	const dim = 1;
@@ -181,16 +181,9 @@
 	// $: console.log(matrixTransform)
 
 	// Grid props
-	const gridCellSize = 1;
-	const gridSectionSize = 5;
-
+	const gridSectionSize = gridStyle.sectionSize;
 	const defaultGridProps = {
-		cellSize: gridCellSize,
-		cellColor: colors.slate["700"],
-		cellThickness: 1.5,
-		sectionSize: gridSectionSize,
-		sectionColor: colors.slate["700"],
-		sectionThickness: 3,
+		...gridStyle,
 		infiniteGrid: true
 	};
 
@@ -1466,7 +1459,7 @@
 			.timeline({
 				scrollTrigger: {
 					...stPropsAlt,
-					trigger: "#section-2",
+					trigger: "#inverse-lesson",
 					start: "top center",
 					// FIXME:
 					// onToggle: () => {
@@ -2188,7 +2181,7 @@
 		// $arcadeMounted = true
 
 		// Text animations
-		gsap.utils.toArray("#article section.animate > *").forEach((el) => {
+		gsap.utils.toArray("#article section.animate:not(.inverse-section) > *").forEach((el) => {
 			let animation;
 
 			if (el.className === "exclude") {

@@ -1,0 +1,263 @@
+/* cloned from repo https://github.com/yizhe-ang/matrix-explorable — original visualization by Yi Zhe Ang. */
+.inverse-host {
+	position: absolute;
+	inset: 0 32.5ch;
+	z-index: 5;
+	visibility: hidden;
+	pointer-events: none;
+}
+.inverse-host.inverse-active {
+	visibility: visible;
+}
+.inverse-playground {
+	height: 100%;
+	position: absolute;
+	inset: 0;
+	isolation: isolate;
+	overflow: hidden;
+	background: hsl(231, 15%, 4%);
+	color: hsl(var(--nc));
+	pointer-events: none;
+}
+.inverse-playground [hidden],
+.inverse-playground[hidden] {
+	display: none !important;
+}
+.inverse-decoration {
+	position: absolute;
+	z-index: -1;
+	inset: -30px;
+	pointer-events: none;
+	transform: translateY(var(--lesson-drift, 0px));
+}
+.inverse-playground canvas {
+	display: block;
+	width: 100%;
+	height: 100%;
+	touch-action: none;
+	cursor: move;
+}
+.inverse-labels {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	color: hsl(var(--bc));
+}
+.inverse-labels > span {
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.inverse-controls {
+	position: absolute;
+	top: 2rem;
+	left: 2rem;
+	right: 2rem;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 1.75rem;
+	pointer-events: none;
+}
+.inverse-controls > * {
+	max-width: 100%;
+}
+.inverse-interactive .inverse-editor,
+.inverse-interactive .inverse-buttons,
+.inverse-interactive .inverse-presets,
+.inverse-interactive .inverse-why {
+	pointer-events: auto;
+}
+.inverse-editor {
+	display: flex;
+	align-items: center;
+	gap: 1.25rem;
+	order: 2;
+}
+.inverse-matrix-label {
+	font: 24px "Old Standard TT", serif;
+}
+.inverse-matrix,
+.inverse-values,
+.inverse-input-vector,
+.inverse-output-vector {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	padding: 0 0.75rem;
+	border: 0;
+	box-shadow: inset 0 0 0 3px white, 0 10px 15px -3px hsl(var(--nc) / 0.2);
+	background: hsl(var(--b2));
+	font: 24px "Old Standard TT", serif;
+	min-width: 0;
+}
+.inverse-matrix {
+	width: 184px;
+}
+.inverse-matrix input,
+.inverse-input-vector input {
+	background: hsl(var(--b2));
+	border: 0;
+	border-radius: 0;
+	padding: 0.5rem;
+	width: 80px;
+	min-width: 0;
+	text-align: right;
+	font: inherit;
+	color: hsl(var(--p));
+	transition: background-color 0.15s;
+}
+.inverse-matrix input:nth-child(even) {
+	color: hsl(var(--s));
+}
+.inverse-matrix input:hover,
+.inverse-matrix input:focus,
+.inverse-input-vector input:hover,
+.inverse-input-vector input:focus {
+	background: hsl(var(--b1));
+}
+.inverse-matrix input:not(:focus),
+.inverse-input-vector input:not(:focus) {
+	cursor: ew-resize;
+	touch-action: none;
+	user-select: none;
+}
+.inverse-presets {
+	display: grid;
+	gap: 0.5rem;
+	font-size: 14px;
+}
+.inverse-presets select {
+	width: 150px;
+	padding: 0.5rem;
+	background: hsl(var(--b2));
+	border: 0;
+	color: inherit;
+	font: inherit;
+}
+.inverse-readouts {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 1.25rem;
+	order: 3;
+	font: 24px "Old Standard TT", serif;
+	font-variant-numeric: tabular-nums;
+}
+.inverse-readouts p {
+	margin: 0;
+}
+.inverse-determinant {
+	color: hsl(var(--in));
+	width: 100%;
+}
+.inverse-numerical {
+	display: flex;
+	align-items: center;
+	gap: 1.25rem;
+}
+.inverse-values {
+	text-align: right;
+}
+.inverse-values span {
+	min-width: 80px;
+	padding: 0.5rem;
+	color: hsl(var(--in));
+}
+.inverse-vector-values {
+	font-size: 20px;
+	color: hsl(var(--in));
+}
+.inverse-buttons {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+	order: 1;
+}
+.inverse-controls button {
+	background: hsl(var(--b2));
+	border: 0;
+	border-radius: 9999px;
+	padding: 0.75rem 1rem;
+	font: inherit;
+	color: inherit;
+	box-shadow: 0 10px 15px -3px hsl(var(--nc) / 0.2);
+	transition: background-color 0.15s;
+}
+.inverse-controls button:not(:disabled):hover {
+	background: hsl(var(--b1));
+}
+.inverse-controls :disabled {
+	opacity: 0.4;
+	cursor: not-allowed;
+}
+.inverse-controls :focus-visible {
+	outline: 2px solid hsl(var(--in));
+	outline-offset: 2px;
+}
+.inverse-status {
+	order: 4;
+	font-size: 14px;
+	margin: 0;
+	max-width: 42ch;
+}
+.inverse-help {
+	order: 6;
+	font-size: 14px;
+	line-height: 1.5;
+	margin: 0;
+	max-width: 42ch;
+}
+.inverse-why {
+	order: 5;
+	color: hsl(var(--in));
+	text-decoration: underline;
+}
+@media (prefers-reduced-motion: reduce) {
+	.inverse-decoration {
+		transform: none;
+	}
+	.inverse-controls button,
+	.inverse-matrix input,
+	.inverse-input-vector input {
+		transition: none;
+	}
+}
+
+.inverse-input-vector,
+.inverse-output-vector {
+	grid-template-columns: 1fr;
+	color: hsl(var(--in));
+}
+.inverse-input-vector {
+	box-shadow: inset 0 0 0 3px hsl(var(--in)),
+		0 10px 15px -3px hsl(var(--nc) / 0.2);
+}
+.inverse-input-vector input {
+	color: inherit;
+}
+.inverse-output-vector span {
+	width: 80px;
+	text-align: right;
+	padding: 0.5rem;
+}
+.inverse-equals {
+	font: bold 24px "Old Standard TT", serif;
+}
+.inverse-presets {
+	order: 4;
+}
+.inverse-status {
+	order: 5;
+}
+.inverse-why {
+	order: 6;
+}
+
+.inverse-status {
+	position: absolute;
+	top: calc(100vh - 6rem);
+}
+.inverse-why {
+	position: absolute;
+	top: calc(100vh - 4rem);
+}

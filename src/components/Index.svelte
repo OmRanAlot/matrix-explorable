@@ -1,4 +1,6 @@
 <script>
+	import InverseLessons from "./matrix/InverseLessons.svelte";
+	import { lessonOwner, lessonBlend } from "$stores/lessonOwner.js";
 	import Threlte from "$components/matrix/Threlte.svelte";
 	import MatrixInput from "$components/matrix/MatrixInput.svelte";
 	import ScrubberInput from "$components/matrix/ScrubberInput.svelte";
@@ -53,19 +55,29 @@
 			? `pointer-events-none`
 			: ``}"
 	>
-		<Threlte />
+		<div
+			class="original-scene"
+			class:lesson-hidden={$lessonOwner !== null && $lessonBlend === 1}
+			style:opacity={$lessonOwner !== null ? 1 - $lessonBlend : 1}
+			inert={$lessonOwner !== null ? true : undefined}
+		>
+			<Threlte />
+		</div>
+		<InverseLessons />
 	</div>
 
 	<Article />
 </article>
 <!-- {/if} -->
 
-{#if $showPlayground}
+{#if $showPlayground && $lessonOwner === null}
 	<TogglePlayground />
 {/if}
 
 <div
 	id="inputs"
+	class:lesson-hidden={$lessonOwner !== null}
+	inert={$lessonOwner !== null ? true : undefined}
 	class="fixed left-0 top-0 flex flex-col items-start px-8 py-8 gap-7 pointer-events-none invisible"
 >
 	<ToggleInput />
@@ -83,3 +95,14 @@
 />
 
 <Footer />
+
+<style>
+	.original-scene {
+		position: absolute;
+		inset: 0;
+	}
+	.lesson-hidden {
+		visibility: hidden !important;
+		pointer-events: none !important;
+	}
+</style>

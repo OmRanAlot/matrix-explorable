@@ -245,6 +245,198 @@
 		</div>
 	</Section>
 
+	<Section id="inverse-lesson" classNames="animate inverse-section">
+		<h2 class="text-neutral">Undoing a Transformation</h2>
+		<P id="inverse-forward">
+			Multiplication by a number can often be undone by division. For a matrix,
+			the corresponding idea is multiplication by its <Term>inverse</Term>,
+			written <Tex expr={"A^{-1}"} />.
+		</P>
+		<P id="inverse-undo">
+			Think of the inverse as another transformation: it moves <B
+				>every transformed vector back to where it started</B
+			>. In the plane beside you, our vector
+			<Tex expr={"v=(-1,2)"} /> lands at <Tex expr={"Av=(0,2)"} />. As you
+			scroll, the inverse brings it home, along with the entire grid.
+		</P>
+		<Tex expr={"A^{-1}(Av)=v"} display />
+		<p>
+			The pale grid remembers the original plane. The pink and purple arrows
+			mark where the two basis vectors land. Watch the inverse return both basis
+			vectors to their standard directions. Every point in the transformed plane
+			follows the same journey back.
+		</p>
+		<Spacer />
+		<p>
+			There is a catch. To undo a transformation, each output must identify
+			<B>exactly one input</B>. If two different vectors land at the same place,
+			which one should the inverse choose?
+		</p>
+		<p>
+			Some matrices collapse the plane onto a line or a point. These
+			transformations lose information, so they have no inverse. To see why,
+			let's first look at area.
+		</p>
+		<Spacer />
+		<div class="exclude">
+			<P id="inverse-try"
+				>Now try undoing a transformation yourself. The controls are available
+				while you explore this part of the lesson.</P
+			>
+			<Action>
+				<ul class="list-none">
+					<li>
+						<B>Left click and drag</B> a basis endpoint, or edit the matrix entries.
+					</li>
+					<li>
+						<B>Drag</B> the numbers to increase or decrease the values in the matrix
+						or input vector
+					</li>
+					<li><B>Right click and drag</B> to pan the plane.</li>
+					<li>
+						Choose <B>Animate Inverse</B> to undo A, and <B
+							>Apply Transformation</B
+						> to replay it.
+					</li>
+					<li>
+						Try a collapse preset. <B>Reset</B> restores the example and cancels
+						playback.
+					</li>
+				</ul>
+			</Action>
+		</div>
+	</Section>
+
+	<Section id="determinant-lesson" classNames="animate inverse-section">
+		<h2 class="text-neutral">The Determinant Measures Area</h2>
+		<P id="area-scale">
+			The two standard basis vectors enclose a square of area one. After a
+			transformation, their new positions enclose a <Term>parallelogram</Term>.
+			The shaded region beside you shows exactly where that square went.
+		</P>
+		<Tex
+			expr={"A=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix},\\qquad \\det(A)=ad-bc"}
+			display
+		/>
+		<p>
+			This number, the <Term>determinant</Term>, is the <B>signed area scale</B>
+			of the transformation. The parallelogram's area is
+			<Tex expr={"|\\det(A)|"} />. Our example has determinant
+			<Tex expr={"2\\cdot1-1\\cdot0=2"} />: the unit square becomes a
+			parallelogram of area two, and every other region doubles in area too.
+		</p>
+		<Spacer />
+		<p>
+			A negative determinant does not mean negative area. It means the
+			transformation <B>reverses orientation</B>, like a reflection in a mirror.
+			A determinant of <Tex expr={"-1"} /> preserves area while flipping the order
+			of the basis directions.
+		</p>
+		<p>
+			But what happens when the two transformed basis vectors point along the
+			same line? The parallelogram becomes flat. Its area, and the determinant,
+			are zero.
+		</p>
+	</Section>
+
+	<Section id="information-loss" classNames="animate inverse-section">
+		<h2 class="text-neutral">When Space Loses Information</h2>
+		<P id="loss-line">
+			Here the <ColorText color="p">pink basis vector is (2, 2)</ColorText> and the
+			<ColorText color="s">purple basis vector is (1, 1)</ColorText>. Purple
+			multiplied by two equals pink. These vectors are
+			<Term>linearly dependent</Term>: one adds no new direction beyond the
+			other.
+		</P>
+		<Tex
+			expr={"\\det\\begin{bmatrix}2&1\\\\2&1\\end{bmatrix}=2\\cdot1-1\\cdot2=0"}
+			display
+		/>
+		<p>
+			Watch the two distinct inputs <Tex expr={"u=(1,0)"} /> and
+			<Tex expr={"w=(0,2)"} /> merge at <Tex expr={"(2,2)"} />. The gold and
+			cyan rings now mark the same output. Scroll back to follow their paths
+			again.
+		</p>
+		<p>
+			Every output on that line has infinitely many possible inputs. No inverse
+			can tell which one we started with. The transformation has erased a whole
+			direction of information.
+		</p>
+		<Spacer />
+		<P id="loss-point">
+			Keep scrolling for the extreme case, a <B>collapse to a point</B>: a
+			matrix of zeros sends every vector to the origin. Both basis vectors
+			disappear into the same point, and all area is lost.
+		</P>
+		<Insight>
+			A two-dimensional matrix is invertible exactly when its determinant is
+			nonzero. A zero determinant means the plane collapses to a line or a
+			point.
+		</Insight>
+	</Section>
+
+	<Section id="inverse-formula" classNames="animate inverse-section">
+		<h2 class="text-neutral">Calculating the Way Back</h2>
+		<P id="formula-recover">
+			Now we can give the inverse a formula. Swap the diagonal entries, change
+			the signs of the other two, and divide by the determinant:
+		</P>
+		<Tex
+			expr={"A^{-1}=\\frac{1}{ad-bc}\\begin{bmatrix}d&-b\\\\-c&a\\end{bmatrix}"}
+			display
+		/>
+		<p>
+			The division by <Tex expr={"ad-bc"} /> explains why a zero determinant stops
+			us. Division by zero is undefined, reflecting the geometric problem: there
+			is <B>no unique original input to recover</B>.
+		</p>
+		<p>
+			For our example, the inverse is
+			<Tex expr={"\\begin{bmatrix}0.5&-0.5\\\\0&1\\end{bmatrix}"} />. It halves
+			the area back to its original size while undoing the shear.
+		</p>
+		<Spacer />
+		<P id="inverse-formula-try"
+			>Go ahead and find the inverse yourself. The controls open here for a
+			fresh playground.</P
+		>
+		<Action>
+			<ul class="list-none">
+				<li>Edit A or drag its basis endpoints.</li>
+				<li>
+					<B>Drag</B> the numbers to increase or decrease the values in the matrix
+					or input vector
+				</li>
+				<li>
+					Compare the determinant and inverse while replaying the forward and
+					inverse transformations.
+				</li>
+			</ul>
+		</Action>
+		<p>
+			This is a fresh playground. Change A and watch its determinant and
+			numerical inverse update together. Try the identity, shear, and reflection
+			presets, then compare them with the two collapses.
+		</p>
+		<p>
+			After <B>Animate Inverse</B>, the plane returns to its original shape. The
+			selected matrix and its inverse stay visible so you can compare them.
+			<B>Reset</B> cancels playback and restores the starting example and camera.
+		</p>
+		<p>
+			Very close to a collapse, tiny changes can produce enormous changes in the
+			inverse. This playground pauses inversion when floating-point precision
+			cannot reliably distinguish the matrix from a singular one. That is a
+			numerical limit; a nonzero determinant is still mathematically invertible.
+		</p>
+		<p class="text-sm">
+			Original visualization by <a
+				href="https://github.com/yizhe-ang/matrix-explorable">Yi Zhe Ang</a
+			>. These inverse and determinant lessons extend that work.
+		</p>
+	</Section>
+
 	<!-- TODO: How about 3D? -->
 	<Section id="section-2" classNames="animate">
 		<h2 class="text-neutral">Beyond Two-Dimensions</h2>

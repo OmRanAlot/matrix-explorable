@@ -1,5 +1,6 @@
 <script>
 	import VectorTex from "./VectorTex.svelte";
+	import { vectorWidth, vectorArrowSize } from "$data/visualization.js";
 	import { HTML } from "@threlte/extras";
 	import katex from "katex";
 	import { formatCoord } from "$utils";
@@ -21,12 +22,12 @@
 
 	const vectorProps = {
 		end: true,
-		width: 3,
+		width: vectorWidth,
+		size: vectorArrowSize,
 		// zBias: 10_000,
 		zBias: 1_000,
     zIndex: 3,
 		// size: 10,
-		width: 3,
 		// color: new Color(color).convertLinearToSRGB(),
 		color,
 		visible

@@ -3,7 +3,9 @@
 	import { T, useFrame, useThrelte, extend, useRender } from "@threlte/core";
 	import * as MathBox from "mathbox";
 	import { onMount } from "svelte";
+	import { lessonOwner } from "$stores/lessonOwner.js";
 	import Arcade from "./Arcade.svelte";
+	import { cameraFov, cameraDistance } from "$data/visualization.js";
 	import { gsap } from "$utils/gsap.js";
 	import {
 		sceneMounted,
@@ -143,7 +145,7 @@
 			.fromTo(
 				$cameraControls,
 				{
-					distance: 15,
+				distance: cameraDistance,
 					polarAngle: Math.PI * 0.35
 					// azimuthAngle: Math.PI * 0.3
 				},
@@ -207,7 +209,7 @@
 			.to(
 				$cameraControls,
 				{
-					distance: 15,
+					distance: cameraDistance,
 					onComplete: function () {
 						// Update default camera position
 						$cameraControls.saveState();
@@ -250,11 +252,11 @@
 		if ($show3d) {
 			$cameraControls.rotateTo(Math.PI * 0.3, Math.PI * 0.35, true);
 			// $cameraControls.dollyTo(8.5, true);
-			$cameraControls.dollyTo(15, true);
+			$cameraControls.dollyTo(cameraDistance, true);
 			$cameraControls.moveTo(0, 0, 0, true);
 		} else {
 			$cameraControls.rotateTo(0, 0, true);
-			$cameraControls.dollyTo(15, true);
+			$cameraControls.dollyTo(cameraDistance, true);
 			$cameraControls.moveTo(0, 0, 0, true);
 		}
 	}
@@ -265,6 +267,7 @@
 	let:ref
 	makeDefault
 	position={cameraPos}
+	fov={cameraFov}
 	near={2}
 	far={300}
 >
@@ -272,6 +275,7 @@
 	<!-- <OrbitControls enableDamping /> -->
 	<!-- TODO: Change touch controls -->
 	<T.CameraControls
+		enabled={$lessonOwner === null}
 		bind:ref={$cameraControls}
 		args={[ref, renderer.domElement]}
 		minDistance={5}
