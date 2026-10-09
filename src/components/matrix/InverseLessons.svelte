@@ -248,8 +248,31 @@
 				if (i && ScrollTrigger.getAll().every((t, j) => t === order[j])) break;
 				ScrollTrigger.refresh();
 			}
+			// Web fonts and KaTeX swap in after this first measurement and reflow the
+			// text, so re-measure whenever the article's sections change height.
+			document.fonts.ready.then(remeasure);
+			document
+				.querySelectorAll("#article section")
+				.forEach((section) => sizeObserver.observe(section));
 			schedule();
 		}
+		let remeasureTimer;
+		function remeasure() {
+			clearTimeout(remeasureTimer);
+			remeasureTimer = setTimeout(() => {
+				if (!destroyed) ScrollTrigger.refresh();
+			}, 150);
+		}
+		const heights = new WeakMap();
+		const sizeObserver = new ResizeObserver((entries) => {
+			let changed = false;
+			for (const { target, contentRect } of entries) {
+				if (heights.has(target) && heights.get(target) !== contentRect.height)
+					changed = true;
+				heights.set(target, contentRect.height);
+			}
+			if (changed) remeasure();
+		});
 		const unsubscribe = loaded.subscribe((ready) => {
 			if (ready) tick().then(initialize);
 		});
@@ -273,6 +296,8 @@
 			destroyed = true;
 			unsubscribe();
 			cancelAnimationFrame(frame);
+			clearTimeout(remeasureTimer);
+			sizeObserver.disconnect();
 			handoff?.kill();
 			context?.revert();
 			media.removeEventListener("change", motionChanged);
